@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="220" viewBox="0 0 180 220">
+  <defs>
+    <linearGradient id="shell" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d8f7ff"/>
+      <stop offset="52%" stop-color="#8ee8ff"/>
+      <stop offset="100%" stop-color="#3e98d4"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="35%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <ellipse cx="90" cy="190" rx="44" ry="10" fill="#000" opacity="0.18"/>
+  <path d="M90 18 C126 18 148 58 148 114 C148 172 118 208 90 208 C62 208 32 172 32 114 C32 58 54 18 90 18 Z" fill="url(#shell)" stroke="#1c628f" stroke-width="6" filter="url(#glow)"/>
+  <path d="M68 52 C82 32 111 34 122 56" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="76" cy="82" rx="16" ry="18" fill="#6b2fb6" opacity="0.9"/>
+  <ellipse cx="111" cy="104" rx="14" ry="16" fill="#7e38c9" opacity="0.88"/>
+  <ellipse cx="70" cy="132" rx="12" ry="14" fill="#8740d4" opacity="0.9"/>
+  <ellipse cx="113" cy="146" rx="17" ry="19" fill="#6322aa" opacity="0.88"/>
+  <ellipse cx="86" cy="60" rx="38" ry="28" fill="url(#shine)" opacity="0.45"/>
+</svg>

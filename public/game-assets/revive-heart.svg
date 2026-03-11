@@ -1,0 +1,18 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="heartGlow" x1="40" y1="24" x2="212" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE27A"/>
+      <stop offset="0.45" stop-color="#FF6AA7"/>
+      <stop offset="1" stop-color="#D81B60"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="256" height="256" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#2B0A1B" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <g filter="url(#shadow)">
+    <path d="M128 220C126.4 220 124.8 219.4 123.6 218.2L40.8 140.4C9.8 111.1 8.2 62.3 37.1 31.2C66-0.1 114.5-2 145.6 26.9L128 44.1L110.4 26.9C79.3 -2 30.8 -0.1 1.9 31.2C-27 62.3 -25.4 111.1 5.6 140.4L88.4 218.2C89.6 219.4 91.2 220 92.8 220H128Z" transform="translate(35 0) scale(0.73)" fill="url(#heartGlow)"/>
+    <path d="M128 220C129.6 220 131.2 219.4 132.4 218.2L215.2 140.4C246.2 111.1 247.8 62.3 218.9 31.2C190-0.1 141.5-2 110.4 26.9L128 44.1L145.6 26.9C176.7 -2 225.2 -0.1 254.1 31.2C283 62.3 281.4 111.1 250.4 140.4L167.6 218.2C166.4 219.4 164.8 220 163.2 220H128Z" transform="translate(-34 0) scale(0.73)" fill="url(#heartGlow)"/>
+    <path d="M128 213L46 136C17 109 15 64 42 36C68 9 111 10 136 39L128 47L120 39C95 10 52 9 26 36C-1 64 1 109 30 136L128 226L226 136C255 109 257 64 230 36C204 9 161 10 136 39L128 47L120 39C145 10 188 9 214 36C241 64 239 109 210 136L128 213Z" transform="scale(0.92) translate(11 8)" fill="#FFF2BF" fill-opacity="0.88"/>
+    <path d="M96 118L116 118L128 88L140 118L160 118L144 132L150 154L128 140L106 154L112 132L96 118Z" fill="#FFF8E5"/>
+  </g>
+</svg>
