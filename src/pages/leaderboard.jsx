@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api";
 
-const BG_IMAGE = "/game-assets/hard-bg-loop.jpg";
+const BG_IMAGE = "/game-assets/bg-leaderboard.jpg";
 
 export default function LeaderboardPage() {
   const [top, setTop] = useState([]);
@@ -32,7 +32,7 @@ export default function LeaderboardPage() {
 
       <div className="relative z-10 min-h-screen px-4 py-6 md:px-6 md:py-10">
         <div className="max-w-4xl mx-auto">
-          <div className="rounded-[2rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-5 md:p-6">
+          <div className="rounded-[3rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-5 md:p-6">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">

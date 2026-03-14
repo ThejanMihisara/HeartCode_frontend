@@ -28,7 +28,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55 }}
-            className="rounded-[2rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-6 md:p-8"
+            className="rounded-[3rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-6 md:p-8"
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">
               Knight Adventure
@@ -40,8 +40,8 @@ export default function LandingPage() {
             </h1>
 
             <p className="mt-4 max-w-xl text-sm md:text-base text-white/80 leading-7">
-              An endless runner with a twist: when you lose, you can revive by
-              solving a Heart Game challenge.
+              When you fail in this endless runner, the Heart Game challenge <br /> 
+              gives you the chance to come back.
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
@@ -105,7 +105,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.96, x: 20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="relative rounded-[2rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-4 md:p-5 overflow-hidden"
+            className="relative rounded-[3rem] border border-white/15 bg-white/10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,0.45)] p-4 md:p-5 overflow-hidden"
           >
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(0,0,0,0.15))]" />
 
@@ -120,13 +120,11 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-xs font-semibold text-amber-100">
-                  MERN Game
-                </div>
+               
               </div>
 
               <div className="mt-4 rounded-[1.4rem] border border-white/10 bg-black/25 p-4">
-                <div className="relative h-[190px] md:h-[210px] overflow-hidden rounded-[1.2rem] border border-white/10 bg-black/20">
+                <div className="relative h-47.5 md:h-52.5 overflow-hidden rounded-[1.2rem] border border-white/10 bg-black/20">
                   <div
                     className="absolute inset-0 bg-cover bg-center"
                     style={{ backgroundImage: `url(${BG_IMAGE})` }}

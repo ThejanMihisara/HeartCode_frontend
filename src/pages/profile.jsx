@@ -5,7 +5,7 @@ import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
 
 const BG_IMAGE =
-  "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=1600&q=80";
+  "/game-assets/bg-profile.jpg";
 
 export default function ProfilePage() {
   const { user, refresh } = useAuth();
@@ -57,7 +57,7 @@ export default function ProfilePage() {
 
       <div className="relative z-10 min-h-screen px-4 py-6 md:px-6 md:py-8">
         <div className="mx-auto max-w-5xl grid gap-6 lg:grid-cols-[320px_1fr]">
-          <div className="rounded-[2rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+          <div className="rounded-[3rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">
               Knight Profile
             </div>
@@ -74,7 +74,7 @@ export default function ProfilePage() {
               <div className="text-2xl font-black text-white">
                 {user?.firstName} {user?.lastName}
               </div>
-              <div className="mt-1 text-white/70">@{user?.username}</div>
+              <div className="mt-1 text-white/70">UserName: {user?.username}</div>
               <div className="mt-1 text-sm text-white/55 break-all">{user?.email}</div>
             </div>
 
@@ -85,9 +85,7 @@ export default function ProfilePage() {
               <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
                 Total runs: <b className="text-amber-300">{user?.totalRuns || 0}</b>
               </div>
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-                Coins: <b className="text-amber-300">{user?.coins || 0}</b>
-              </div>
+              
             </div>
 
             <Link
@@ -100,7 +98,7 @@ export default function ProfilePage() {
 
           <form
             onSubmit={submit}
-            className="rounded-[2rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+            className="rounded-[3rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl"
           >
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">
               Account Settings

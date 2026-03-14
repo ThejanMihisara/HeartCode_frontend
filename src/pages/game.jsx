@@ -650,19 +650,19 @@ async function tryRevive() {
       <div className="relative z-10 h-screen px-3 py-3 md:px-5 md:py-4">
         <div className="mx-auto flex h-full max-w-7xl flex-col gap-3">
           <div className="grid shrink-0 grid-cols-2 gap-2 lg:grid-cols-4">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
+            <div className="rounded-3xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
               <div className="text-[10px] uppercase tracking-[0.2em] text-white/55">Score</div>
               <div className="mt-1 text-2xl font-black text-amber-300 md:text-3xl">{score}</div>
               <div className="mt-1 text-xs text-white/70 line-clamp-2">{statusText}</div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
+            <div className="rounded-3xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
               <div className="text-[10px] uppercase tracking-[0.2em] text-white/55">Dragon Eggs</div>
               <div className="mt-1 text-2xl font-black text-amber-300 md:text-3xl">{eggCount}</div>
               <div className="mt-1 text-xs text-white/70">Each egg adds {EGG_VALUE} score</div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
+            <div className="rounded-3xl border border-white/10 bg-white/10 px-4 py-3 backdrop-blur-xl">
               <div className="text-[10px] uppercase tracking-[0.2em] text-white/55">Revive Chances</div>
               <div className="mt-1 text-2xl font-black text-amber-300 md:text-3xl">{reviveLeft}</div>
               <div className="mt-1 inline-flex items-center gap-2 text-xs text-white/70">
@@ -671,7 +671,7 @@ async function tryRevive() {
               </div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/10 p-2.5 backdrop-blur-xl">
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-2.5 backdrop-blur-xl">
               <div className="grid h-full grid-cols-3 gap-2">
                 <button
                   onClick={() => resetSession(MODE_CONFIG[modeKey], modeKey)}
@@ -696,7 +696,7 @@ async function tryRevive() {
           </div>
 
           <div
-            className="relative min-h-0 flex-1 overflow-hidden rounded-[2rem] border border-white/10 bg-black/20 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
+            className="relative min-h-0 flex-1 overflow-hidden rounded-[3rem] border border-white/10 bg-black/20 shadow-[0_20px_80px_rgba(0,0,0,0.45)]"
             style={{ minHeight: 0 }}
           >
             <div
@@ -712,7 +712,7 @@ async function tryRevive() {
 
             {!running && !dead && !gameOver && (
               <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
-                <div className="max-w-2xl rounded-[2rem] border border-white/10 bg-black/35 px-6 py-6 text-center backdrop-blur-xl md:px-8">
+                <div className="max-w-2xl rounded-[3rem] border border-white/10 bg-black/35 px-6 py-6 text-center backdrop-blur-xl md:px-8">
                   <div className="text-2xl font-black text-white md:text-4xl">Knight Runner · {mode.label}</div>
                   <p className="mt-3 text-sm text-white/80 md:text-base">
                     Press <b>Enter</b> to start. Press <b>Space</b> or <b>↑</b> to jump over the dragon and collect dragon eggs.
@@ -726,7 +726,7 @@ async function tryRevive() {
 
             {gameOver && (
               <div className="absolute inset-0 z-20 flex items-center justify-center px-4">
-                <div className="max-w-2xl rounded-[2rem] border border-white/10 bg-black/45 px-6 py-6 text-center backdrop-blur-xl md:px-8">
+                <div className="max-w-2xl rounded-[3rem] border border-white/10 bg-black/45 px-6 py-6 text-center backdrop-blur-xl md:px-8">
                   <div className="inline-flex rounded-full border border-red-300/20 bg-red-500/15 px-4 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-red-200 md:text-xs">
                     Game Over
                   </div>
@@ -814,7 +814,7 @@ async function tryRevive() {
 
           {reviveState.open && !gameOver && (
             <div className="pointer-events-auto fixed inset-0 z-30 flex items-center justify-center bg-black/55 px-4">
-              <div className="w-full max-w-3xl rounded-[2rem] border border-white/10 bg-slate-950/90 p-5 shadow-[0_20px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-6">
+              <div className="w-full max-w-3xl rounded-[3rem] border border-white/10 bg-slate-950/90 p-5 shadow-[0_20px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl md:p-6">
                 <div className="text-[10px] uppercase tracking-[0.22em] text-amber-200/80 md:text-xs">Heart revive</div>
                 <div className="mt-2 text-2xl font-black text-white md:text-3xl">Answer the puzzle to continue</div>
                 <p className="mt-2 text-sm text-white/75 md:text-base">
@@ -828,7 +828,7 @@ async function tryRevive() {
                     <img
                       src={`data:${reviveState.puzzle.mime || "image/png"};base64,${reviveState.puzzle.image}`}
                       alt="Heart puzzle"
-                      className="mx-auto max-h-[220px] rounded-2xl"
+                      className="mx-auto max-h-55 rounded-2xl"
                     />
                   ) : (
                     <div className="py-10 text-center text-white/60">Puzzle could not be loaded.</div>

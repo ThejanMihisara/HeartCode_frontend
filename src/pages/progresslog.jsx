@@ -4,7 +4,7 @@ import { api } from "../lib/api";
 import toast from "react-hot-toast";
 
 const BG_IMAGE =
-  "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1600&q=80";
+  "/game-assets/bg-progresslog.jpg";
 
 export default function ProgressLogPage() {
   const [data, setData] = useState({ summary: null, runs: [] });
@@ -16,7 +16,7 @@ export default function ProgressLogPage() {
         const res = await api.get("/game/progress-log");
         setData(res.data);
       } catch (err) {
-        toast.error(err?.response?.data?.message || "Failed to load progress log");
+        toast.error(err?.response?.data?.message);
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,7 @@ export default function ProgressLogPage() {
 
       <div className="relative z-10 min-h-screen px-4 py-6 md:px-6 md:py-8">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-[2rem] border border-white/15 bg-white/10 p-5 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-6">
+          <div className="rounded-[3rem] border border-white/15 bg-white/10 p-5 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-6">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">
@@ -123,7 +123,7 @@ export default function ProgressLogPage() {
                   </div>
 
                   <div className="mt-4 overflow-x-auto rounded-[1.4rem] border border-white/10 bg-black/15">
-                    <table className="w-full min-w-[860px] text-left">
+                    <table className="w-full min-w-[216.25px] text-left">
                       <thead>
                         <tr className="border-b border-white/10 text-sm uppercase tracking-wide text-white/55">
                           <th className="px-5 py-4 pr-4">Played at</th>
@@ -147,7 +147,7 @@ export default function ProgressLogPage() {
                             <tr
                               key={run._id}
                               className={`border-b border-white/5 text-sm text-white/85 ${
-                                index % 2 === 0 ? "bg-white/[0.02]" : "bg-transparent"
+                                index % 2 === 0 ? "bg-white/2" : "bg-transparent"
                               }`}
                             >
                               <td className="px-5 py-4 pr-4">

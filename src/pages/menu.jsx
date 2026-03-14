@@ -23,7 +23,7 @@ const MODES = {
 };
 
 const BG_IMAGE =
-  "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80";
+  "/game-assets/bg-menu.jpg";
 
 export default function MenuPage() {
   const nav = useNavigate();
@@ -77,9 +77,9 @@ export default function MenuPage() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,210,110,0.14),transparent_32%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.06),transparent_30%)]" />
 
       <div className="relative z-10 h-screen px-4 py-3 md:px-6 md:py-4">
-        <div className="mx-auto flex h-full w-full max-w-6xl flex-col rounded-[2rem] border border-white/15 bg-white/10 p-4 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-4">
+        <div className="mx-auto flex h-full w-full max-w-6xl flex-col rounded-[3rem] border border-white/15 bg-white/10 p-4 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-4">
           <div className="flex shrink-0 flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-center gap-4 rounded-[1.5rem] border border-white/10 bg-black/20 px-4 py-3">
+            <div className="flex items-center gap-4 rounded-3xl border border-white/10 bg-black/20 px-4 py-3">
               <img
                 src={user?.image}
                 alt="avatar"
@@ -94,7 +94,7 @@ export default function MenuPage() {
                 </div>
                 {user && (
                   <div className="mt-0.5 text-[11px] text-white/75 md:text-sm">
-                    High score: <b>{user.highScore}</b> · Username: <b>@{user.username || "player"}</b>
+                    High score: <b>{user.highScore}</b> · Username: <b>{user.username || "player"}</b>
                   </div>
                 )}
               </div>
@@ -109,16 +109,13 @@ export default function MenuPage() {
           </div>
 
           <div className="mt-3 grid flex-1 gap-3 lg:grid-cols-[1.08fr_0.92fr]">
-            <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4 shadow-lg">
+            <div className="rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-lg font-black text-white md:text-2xl">
                     Choose your adventure mode
                   </div>
-                  <p className="mt-1 text-[11px] leading-5 text-white/70 md:text-sm">
-                    The knight stays the same. Each mode changes the world mood, enemy style,
-                    speed, spacing, and jump timing.
-                  </p>
+                 
                 </div>
                 <div className="hidden rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[10px] font-semibold text-amber-100 md:block">
                   Mode Select
@@ -136,7 +133,7 @@ export default function MenuPage() {
                         : "border-white/10 bg-black/10 hover:border-white/25 hover:bg-white/5"
                     }`}
                   >
-                    <div className={`h-2 rounded-full bg-gradient-to-r ${item.accent}`} />
+                    <div className={`h-2 rounded-full bg-linear-to-r ${item.accent}`} />
                     <div className="mt-2.5 flex items-center justify-between gap-2">
                       <div className="text-base font-black text-white md:text-lg">
                         {item.name}
@@ -162,12 +159,12 @@ export default function MenuPage() {
               </button>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-black/20 p-4 shadow-lg">
+            <div className="rounded-3xl border border-white/10 bg-black/20 p-4 shadow-lg">
               <div className="text-lg font-black text-white md:text-2xl">
                 Continue saved progress
               </div>
               <p className="mt-1 text-[11px] leading-5 text-white/70 md:text-sm">
-                This save slot belongs only to the logged-in account. You can have one active saved run at a time. Use Save & Exit in the pause menu, or close the tab after the autosave kicks in.
+                You can have one active saved run at a time. Use Save & Exit in the pause menu, or close the tab after the autosave kicks in.
               </p>
 
               <div className="mt-3 rounded-[1.3rem] border border-white/10 bg-black/15 p-4">

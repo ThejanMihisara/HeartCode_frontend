@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { api } from "../lib/api";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye} from "react-icons/fi";
 
 const BG_IMAGE =
-  "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1600&q=80";
+  "/game-assets/bg-regis.jpg";
 
 export default function RegisterPage() {
   const nav = useNavigate();
@@ -29,7 +29,7 @@ export default function RegisterPage() {
       toast.success("Account created. Please login.");
       nav("/login");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Registration failed");
+      toast.error(err?.response?.data?.message);
     } finally {
       setBusy(false);
     }
@@ -50,7 +50,7 @@ export default function RegisterPage() {
       <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-6 md:px-6">
         <form
           onSubmit={submit}
-          className="w-full max-w-md rounded-[2rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-7"
+          className="w-full max-w-md rounded-[3rem] border border-white/15 bg-white/10 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:p-7"
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/10 px-4 py-1.5 text-[10px] md:text-xs font-semibold tracking-[0.22em] uppercase text-amber-100">
             Start Your Adventure
