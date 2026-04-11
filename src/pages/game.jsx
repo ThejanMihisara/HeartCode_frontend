@@ -3,106 +3,24 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
-
-const RUN_FRAMES = Array.from({ length: 10 }, (_, i) => `/game-assets/Run (${i + 1}).png`);
-const JUMP_FRAME = `/game-assets/Jump (4).png`;
-const DEAD_FRAME = `/game-assets/Dead (6).png`;
-const EASY_BG_IMAGE = `/game-assets/easy-bg-loop.jpg`;
-const MEDIUM_BG_IMAGE = `/game-assets/medium-bg-loop.jpg`;
-const HARD_BG_IMAGE = `/game-assets/hard-bg-loop.jpg`;
-const DRAGON_IMAGE = `/game-assets/dragon.gif`;
-const EGG_IMAGE = `/game-assets/dragon-egg.svg`;
-const HEART_IMAGE = `/game-assets/revive-heart.svg`;
-const EGG_VALUE = 50;
-const BASE_REVIVE_CHANCES = 2;
-
-const MODE_CONFIG = {
-  easy: {
-    label: "Easy",
-    enemyImage: DRAGON_IMAGE,
-    backgroundImage: EASY_BG_IMAGE,
-    worldFilter: "saturate(1.03) brightness(1.04)",
-    jumpVelocity: 1040,
-    gravity: -2260,
-    baseObstacleSpeed: 300,
-    speedScale: 0.7,
-    obstacleGapMin: 630,
-    obstacleGapRange: 240,
-    enemyWidth: 112,
-    enemyHeight: 82,
-    hitbox: { left: 26, width: 48, bottom: 74, height: 40 },
-    eggGapMin: 330,
-    eggGapRange: 280,
-    eggHeightMin: 120,
-    eggHeightRange: 80,
-  },
-  medium: {
-    label: "Medium",
-    enemyImage: DRAGON_IMAGE,
-    backgroundImage: MEDIUM_BG_IMAGE,
-    worldFilter: "saturate(0.98) brightness(0.98)",
-    jumpVelocity: 980,
-    gravity: -2460,
-    baseObstacleSpeed: 345,
-    speedScale: 1,
-    obstacleGapMin: 560,
-    obstacleGapRange: 210,
-    enemyWidth: 126,
-    enemyHeight: 92,
-    hitbox: { left: 32, width: 54, bottom: 75, height: 48 },
-    eggGapMin: 310,
-    eggGapRange: 240,
-    eggHeightMin: 126,
-    eggHeightRange: 94,
-  },
-  hard: {
-    label: "Hard",
-    enemyImage: DRAGON_IMAGE,
-    backgroundImage: HARD_BG_IMAGE,
-    worldFilter: "saturate(0.92) brightness(0.82)",
-    jumpVelocity: 940,
-    gravity: -2580,
-    baseObstacleSpeed: 395,
-    speedScale: 1.28,
-    obstacleGapMin: 495,
-    obstacleGapRange: 165,
-    enemyWidth: 144,
-    enemyHeight: 106,
-    hitbox: { left: 36, width: 60, bottom: 76, height: 54 },
-    eggGapMin: 280,
-    eggGapRange: 220,
-    eggHeightMin: 132,
-    eggHeightRange: 105,
-  },
-};
-
-function clamp(n, a, b) {
-  return Math.max(a, Math.min(b, n));
-}
-
-function scoreFrom(eggsCollected) {
-  return eggsCollected * EGG_VALUE;
-}
-
-function createStarterObstacles(config) {
-  return [
-    { id: 1, x: 1040, width: config.enemyWidth, height: config.enemyHeight, speed: config.baseObstacleSpeed },
-    { id: 2, x: 1040 + config.obstacleGapMin + 120, width: config.enemyWidth, height: config.enemyHeight, speed: config.baseObstacleSpeed + 12 },
-    { id: 3, x: 1040 + (config.obstacleGapMin + 120) * 2, width: config.enemyWidth, height: config.enemyHeight, speed: config.baseObstacleSpeed + 24 },
-  ];
-}
-
-function createStarterEggs(config) {
-  return [
-    { id: 1, x: 860, y: config.eggHeightMin + 30, size: 54 },
-    { id: 2, x: 1300, y: config.eggHeightMin + 55, size: 56 },
-    { id: 3, x: 1740, y: config.eggHeightMin + 22, size: 52 },
-  ];
-}
-
-function createHeartCollectible() {
-  return { id: 1, x: 2120, y: 176, size: 62, collected: false, active: true };
-}
+import {
+  RUN_FRAMES,
+  JUMP_FRAME,
+  DEAD_FRAME,
+  EGG_IMAGE,
+  HEART_IMAGE,
+  EGG_VALUE,
+  MODE_CONFIG,
+  BASE_REVIVE_CHANCES,
+  GROUND_Y,
+} from "./game/gameConfig";
+import {
+  clamp,
+  scoreFrom,
+  createStarterObstacles,
+  createStarterEggs,
+  createHeartCollectible,
+} from "./game/gameHelpers";
 
 export default function GamePage() {
   const { user, refresh } = useAuth();
@@ -145,7 +63,6 @@ export default function GamePage() {
   const [reviveState, setReviveState] = useState({ open: false, puzzle: null, answer: "", loading: false });
 
   const vyRef = useRef(0);
-  const groundY = 0;
 
   const totalReviveChances = BASE_REVIVE_CHANCES + heartCount;
   const reviveLeft = Math.max(0, totalReviveChances - reviveCountRef.current);
@@ -285,6 +202,10 @@ export default function GamePage() {
     })();
   }, [isContinue, requestedMode]);
 
+
+
+
+
   useEffect(() => {
     function onKey(e) {
       if (e.code === "Enter") {
@@ -297,7 +218,7 @@ export default function GamePage() {
         e.preventDefault();
         if (!ready || dead || gameOver) return;
         if (!runStartedAtRef.current) runStartedAtRef.current = Date.now();
-        if (playerYRef.current === groundY) {
+        if (playerYRef.current === GROUND_Y) {
           vyRef.current = mode.jumpVelocity;
         }
         setRunning(true);
@@ -311,6 +232,12 @@ export default function GamePage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [dead, ready, modeKey, mode, gameOver]);
 
+
+
+
+
+
+  
   useEffect(() => {
     async function persistRun() {
       if (runLoggedRef.current || !user) return;
@@ -325,7 +252,7 @@ export default function GamePage() {
         });
         await refresh();
       } catch {
-        // ignore in UI
+        
       }
     }
 
@@ -342,8 +269,8 @@ export default function GamePage() {
         vyRef.current += mode.gravity * dt;
 
         let nextY = playerYRef.current + vyRef.current * dt;
-        if (nextY < groundY) {
-          nextY = groundY;
+        if (nextY < GROUND_Y) {
+          nextY = GROUND_Y;
           vyRef.current = 0;
         }
         playerYRef.current = nextY;
@@ -409,7 +336,7 @@ export default function GamePage() {
         const eggUpdated = movedEggs.map((egg) => {
           const eggLeft = egg.x + 10;
           const eggRight = eggLeft + egg.size - 20;
-          const eggBottom = 58 + egg.y;
+          const eggBottom = egg.y - egg.size + 20;
           const eggTop = eggBottom + egg.size - 12;
           const overlapsX = playerRight > eggLeft && playerLeft < eggRight;
           const overlapsY = playerBottom < eggTop && playerTop > eggBottom;
@@ -520,11 +447,22 @@ export default function GamePage() {
     }
   }
 
+
+
+
   async function saveAndExit() {
     await saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, true);
     await refresh();
     nav("/menu");
   }
+
+
+
+
+
+
+
+
 
   async function loadPuzzle() {
     setReviveState((r) => ({ ...r, loading: true }));
@@ -536,6 +474,12 @@ export default function GamePage() {
       setReviveState((r) => ({ ...r, loading: false }));
     }
   }
+
+
+
+
+
+
 
 async function tryRevive() {
   const solution = reviveState.puzzle?.solution;
@@ -555,7 +499,7 @@ async function tryRevive() {
 
   if (isCorrect) {
 
-    // move dragons forward so player doesn't instantly collide again
+    
     const safeObstacles = obstaclesRef.current.map((o) => ({
       ...o,
       x: o.x + 350,
@@ -564,7 +508,7 @@ async function tryRevive() {
     obstaclesRef.current = safeObstacles;
     setObstacles(safeObstacles);
 
-    // small jump boost to avoid ground collision
+   
     vyRef.current = mode.jumpVelocity * 0.55;
 
     // close revive popup

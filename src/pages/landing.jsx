@@ -36,7 +36,7 @@ export default function LandingPage() {
 
             <h1 className="mt-4 text-3xl md:text-5xl font-black leading-tight text-white drop-shadow">
               HeartCode Runner
-              <span className="block text-amber-300">Endless. Fast. Addictive.</span>
+             
             </h1>
 
             <p className="mt-4 max-w-xl text-sm md:text-base text-white/80 leading-7">

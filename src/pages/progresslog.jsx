@@ -76,35 +76,35 @@ export default function ProgressLogPage() {
                   <div className="rounded-[1.6rem] border border-white/10 bg-black/20 p-5">
                     <div className="text-sm text-white/60">High score</div>
                     <div className="mt-1 text-3xl font-black text-amber-300">
-                      {user?.highScore || 0}
+                      {Math.round(Number(user?.highScore) || 0)}
                     </div>
                   </div>
 
                   <div className="rounded-[1.6rem] border border-white/10 bg-black/20 p-5">
                     <div className="text-sm text-white/60">Average score</div>
                     <div className="mt-1 text-3xl font-black text-amber-300">
-                      {data.summary?.averageScore || 0}
+                      {Math.round(Number(data.summary?.averageScore) || 0)}
                     </div>
                   </div>
 
                   <div className="rounded-[1.6rem] border border-white/10 bg-black/20 p-5">
                     <div className="text-sm text-white/60">Total runs</div>
                     <div className="mt-1 text-3xl font-black text-amber-300">
-                      {user?.totalRuns || 0}
+                      {data.runs.length}
                     </div>
                   </div>
 
                   <div className="rounded-[1.6rem] border border-white/10 bg-black/20 p-5">
                     <div className="text-sm text-white/60">Revives used</div>
                     <div className="mt-1 text-3xl font-black text-amber-300">
-                      {data.summary?.totalRevives || 0}
+                      {Math.round(Number(data.summary?.totalRevives) || 0)}
                     </div>
                   </div>
 
                   <div className="rounded-[1.6rem] border border-white/10 bg-black/20 p-5">
                     <div className="text-sm text-white/60">Eggs collected</div>
                     <div className="mt-1 text-3xl font-black text-amber-300">
-                      {data.summary?.totalEggs || 0}
+                      {Math.round(Number(data.summary?.totalEggs) || 0)}
                     </div>
                   </div>
                 </div>
@@ -161,14 +161,14 @@ export default function ProgressLogPage() {
                               </td>
 
                               <td className="px-5 py-4 pr-4 font-bold text-amber-300">
-                                {run.score}
+                                {Math.round(Number(run.score) || 0)}
                               </td>
 
-                              <td className="px-5 py-4 pr-4">{run.eggCount || 0}</td>
+                              <td className="px-5 py-4 pr-4">{Math.round(Number(run.eggCount) || 0)}</td>
 
-                              <td className="px-5 py-4 pr-4">{run.revived}</td>
+                              <td className="px-5 py-4 pr-4">{Math.round(Number(run.revived) || 0)}</td>
 
-                              <td className="px-5 py-4 pr-4">{run.durationSeconds}s</td>
+                              <td className="px-5 py-4 pr-4">{Math.round(Number(run.durationSeconds) || 0)}s</td>
                             </tr>
                           ))
                         )}
