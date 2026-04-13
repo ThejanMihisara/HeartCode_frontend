@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 const BG_IMAGE =
   "/game-assets/bg-progresslog.jpg";
 
+// Progress log page component
 export default function ProgressLogPage() {
   const [data, setData] = useState({ summary: null, runs: [] });
   const [loading, setLoading] = useState(true);

@@ -7,6 +7,7 @@ import { useAuth } from "../lib/auth";
 const BG_IMAGE =
   "/game-assets/bg-profile.jpg";
 
+// Profile page component
 export default function ProfilePage() {
   const { user, refresh } = useAuth();
   const [form, setForm] = useState({
@@ -28,6 +29,7 @@ export default function ProfilePage() {
     }
   }, [user]);
 
+  // Handle profile update form submission
   async function submit(e) {
     e.preventDefault();
     setBusy(true);

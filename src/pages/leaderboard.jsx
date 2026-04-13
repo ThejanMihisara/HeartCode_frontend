@@ -4,6 +4,7 @@ import { api } from "../lib/api";
 
 const BG_IMAGE = "/game-assets/bg-leaderboard.jpg";
 
+// Leaderboard page component
 export default function LeaderboardPage() {
   const [top, setTop] = useState([]);
 
@@ -14,6 +15,7 @@ export default function LeaderboardPage() {
       .catch(() => setTop([]));
   }, []);
 
+  // Get rank styling
   function rankStyle(idx) {
     if (idx === 0) return "bg-gradient-to-r from-yellow-300/30 to-amber-400/20 border-yellow-300/30";
     if (idx === 1) return "bg-gradient-to-r from-slate-200/20 to-slate-400/10 border-slate-200/20";

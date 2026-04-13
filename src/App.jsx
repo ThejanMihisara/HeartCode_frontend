@@ -10,6 +10,7 @@ import ProgressLogPage from "./pages/progresslog";
 import ProfilePage from "./pages/profile";
 import { useAuth } from "./lib/auth";
 
+// Loading component for session check
 function FullScreenLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center text-secondary/80">
@@ -20,6 +21,7 @@ function FullScreenLoader() {
   );
 }
 
+// Route wrapper for public pages
 function PublicOnlyRoute({ children }) {
   const { user, loading } = useAuth();
 
@@ -29,6 +31,7 @@ function PublicOnlyRoute({ children }) {
   return children;
 }
 
+// Route wrapper for protected pages
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
 
@@ -38,6 +41,7 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+// Main app component with routing
 export default function App() {
   return (
     <div className="min-h-screen bg-secondary text-primary">

@@ -25,6 +25,7 @@ const MODES = {
 const BG_IMAGE =
   "/game-assets/bg-menu.jpg";
 
+// Menu page component
 export default function MenuPage() {
   const nav = useNavigate();
   const { user, refresh } = useAuth();
@@ -48,6 +49,7 @@ export default function MenuPage() {
     })();
   }, []);
 
+  // Logout user
   async function logout() {
     await api.post("/users/logout");
     await refresh();
@@ -55,6 +57,7 @@ export default function MenuPage() {
     nav("/");
   }
 
+  // Start new game
   async function startNewGame() {
     try {
       await api.delete("/game/checkpoint");

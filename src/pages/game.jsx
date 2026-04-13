@@ -22,6 +22,7 @@ import {
   createHeartCollectible,
 } from "./game/gameHelpers";
 
+// Game page component
 export default function GamePage() {
   const { user, refresh } = useAuth();
   const nav = useNavigate();
@@ -67,10 +68,12 @@ export default function GamePage() {
   const totalReviveChances = BASE_REVIVE_CHANCES + heartCount;
   const reviveLeft = Math.max(0, totalReviveChances - reviveCountRef.current);
 
+  // Sync score display
   function syncScore() {
     setScore(scoreFrom(eggCountRef.current));
   }
 
+  // Reset game session
   function resetSession(config, nextModeKey) {
     const starter = createStarterObstacles(config);
     const starterEggs = createStarterEggs(config);
@@ -207,6 +210,7 @@ export default function GamePage() {
 
 
   useEffect(() => {
+    // Handle keyboard input
     function onKey(e) {
       if (e.code === "Enter") {
         if (!ready || dead || gameOver) return;
@@ -239,6 +243,7 @@ export default function GamePage() {
 
   
   useEffect(() => {
+    // Persist run data to server
     async function persistRun() {
       if (runLoggedRef.current || !user) return;
       runLoggedRef.current = true;
@@ -260,6 +265,7 @@ export default function GamePage() {
   }, [gameOver, modeKey, refresh, user]);
 
   useEffect(() => {
+    // Game loop tick
     function tick(ts) {
       const last = lastTsRef.current || ts;
       const dt = clamp((ts - last) / 1000, 0, 0.05);
@@ -405,6 +411,7 @@ export default function GamePage() {
   }, [running, dead, ready, modeKey, gameOver]);
 
   useEffect(() => {
+    // Handle page unload to save checkpoint
     function handleBeforeUnload() {
       if (running && !dead && !gameOver && (eggCountRef.current > 0 || heartCountRef.current > 0 || reviveCountRef.current > 0)) {
         saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, false);
@@ -414,6 +421,7 @@ export default function GamePage() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, [running, dead, modeKey, gameOver]);
 
+  // Handle player defeat
   async function handleDefeat() {
     setDead(true);
     setRunning(false);
@@ -432,6 +440,7 @@ export default function GamePage() {
     api.delete("/game/checkpoint").catch(() => {});
   }
 
+  // Save game checkpoint
   async function saveCheckpoint(scoreValue, modeValue, eggCountValue, heartCountValue, revivesUsedValue, showToast = true) {
     try {
       await api.post("/game/checkpoint", {
@@ -450,6 +459,7 @@ export default function GamePage() {
 
 
 
+  // Save checkpoint and exit to menu
   async function saveAndExit() {
     await saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, true);
     await refresh();
@@ -464,6 +474,7 @@ export default function GamePage() {
 
 
 
+  // Load heart puzzle for revive
   async function loadPuzzle() {
     setReviveState((r) => ({ ...r, loading: true }));
     try {
@@ -481,6 +492,7 @@ export default function GamePage() {
 
 
 
+// Attempt to revive with puzzle answer
 async function tryRevive() {
   const solution = reviveState.puzzle?.solution;
 

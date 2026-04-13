@@ -7,6 +7,7 @@ import { FiEye} from "react-icons/fi";
 const BG_IMAGE =
   "/game-assets/bg-regis.jpg";
 
+// Register page component
 export default function RegisterPage() {
   const nav = useNavigate();
 
@@ -20,6 +21,7 @@ export default function RegisterPage() {
   const [busy, setBusy] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Handle register form submission
   async function submit(e) {
     e.preventDefault();
     setBusy(true);

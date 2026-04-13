@@ -8,6 +8,7 @@ const DRAGON_IMAGE = "/game-assets/dragon.gif";
 const EGG_IMAGE = "/game-assets/dragon-egg.svg";
 const HEART_IMAGE = "/game-assets/revive-heart.svg";
 
+// Landing page component
 export default function LandingPage() {
   const { user, loading } = useAuth();
   const primaryLink = !loading && user ? "/menu" : "/register";

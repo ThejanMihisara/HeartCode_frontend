@@ -3,10 +3,12 @@ import { api } from "./api";
 
 const AuthContext = createContext(null);
 
+// Auth context provider
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Refresh user data
   async function refresh() {
     try {
       const { data } = await api.get("/users/me");
@@ -27,6 +29,7 @@ export function AuthProvider({ children }) {
   return React.createElement(AuthContext.Provider, { value }, children);
 }
 
+// Hook to use auth context
 export function useAuth() {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");

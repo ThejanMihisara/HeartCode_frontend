@@ -1,3 +1,4 @@
+// Game asset paths
 export const RUN_FRAMES = Array.from({ length: 10 }, (_, i) => `/game-assets/Run (${i + 1}).png`);
 export const JUMP_FRAME = `/game-assets/Jump (4).png`;
 export const DEAD_FRAME = `/game-assets/Dead (6).png`;
@@ -7,10 +8,13 @@ export const HARD_BG_IMAGE = `/game-assets/hard-bg-loop.jpg`;
 export const DRAGON_IMAGE = `/game-assets/dragon.gif`;
 export const EGG_IMAGE = `/game-assets/dragon-egg.svg`;
 export const HEART_IMAGE = `/game-assets/revive-heart.svg`;
+
+// Game constants
 export const EGG_VALUE = 50;
 export const BASE_REVIVE_CHANCES = 2;
 export const GROUND_Y = 0;
 
+// Mode configurations
 export const MODE_CONFIG = {
   easy: {
     label: "Easy",

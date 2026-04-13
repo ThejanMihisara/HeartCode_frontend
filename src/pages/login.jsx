@@ -8,6 +8,7 @@ import { FiEye} from "react-icons/fi";
 const BG_IMAGE =
   "/game-assets/bg-login.jpg";
 
+// Login page component
 export default function LoginPage() {
   const nav = useNavigate();
   const { refresh } = useAuth();
@@ -21,6 +22,7 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Handle login form submission
   async function submit(e) {
     e.preventDefault();
     setBusy(true);
