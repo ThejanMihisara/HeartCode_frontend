@@ -22,6 +22,31 @@ import {
   createHeartCollectible,
 } from "./game/gameHelpers";
 
+// Preload all game images so animation frames are ready instantly
+const IMAGES_TO_PRELOAD = [
+  ...RUN_FRAMES,
+  JUMP_FRAME,
+  DEAD_FRAME,
+  EGG_IMAGE,
+  HEART_IMAGE,
+  ...Object.values(MODE_CONFIG).map((m) => m.backgroundImage),
+  ...Object.values(MODE_CONFIG).map((m) => m.enemyImage),
+];
+
+function preloadImages(srcs) {
+  return Promise.all(
+    srcs.map(
+      (src) =>
+        new Promise((resolve) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = resolve; // don't block on error
+          img.src = src;
+        })
+    )
+  );
+}
+
 // Game page component
 export default function GamePage() {
   const { user, refresh } = useAuth();
@@ -47,6 +72,7 @@ export default function GamePage() {
   const worldOffsetRef = useRef(0);
   const runLoggedRef = useRef(false);
 
+  const [assetsReady, setAssetsReady] = useState(false); // ← preload gate
   const [ready, setReady] = useState(!isContinue);
   const [running, setRunning] = useState(false);
   const [dead, setDead] = useState(false);
@@ -67,6 +93,11 @@ export default function GamePage() {
 
   const totalReviveChances = BASE_REVIVE_CHANCES + heartCount;
   const reviveLeft = Math.max(0, totalReviveChances - reviveCountRef.current);
+
+  // Preload all images on mount
+  useEffect(() => {
+    preloadImages(IMAGES_TO_PRELOAD).then(() => setAssetsReady(true));
+  }, []);
 
   // Sync score display
   function syncScore() {
@@ -205,10 +236,6 @@ export default function GamePage() {
     })();
   }, [isContinue, requestedMode]);
 
-
-
-
-
   useEffect(() => {
     // Handle keyboard input
     function onKey(e) {
@@ -236,12 +263,6 @@ export default function GamePage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [dead, ready, modeKey, mode, gameOver]);
 
-
-
-
-
-
-  
   useEffect(() => {
     // Persist run data to server
     async function persistRun() {
@@ -256,19 +277,25 @@ export default function GamePage() {
           mode: modeKey,
         });
         await refresh();
-      } catch {
-        
-      }
+      } catch {}
     }
 
     if (gameOver) persistRun();
   }, [gameOver, modeKey, refresh, user]);
 
   useEffect(() => {
-    // Game loop tick
+    // Game loop tick — only runs after assets are preloaded
+    if (!assetsReady) return;
+
     function tick(ts) {
-      const last = lastTsRef.current || ts;
-      const dt = clamp((ts - last) / 1000, 0, 0.05);
+      // Skip first frame to avoid huge delta on first render
+      if (!lastTsRef.current) {
+        lastTsRef.current = ts;
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
+      const dt = clamp((ts - lastTsRef.current) / 1000, 0, 0.05);
       lastTsRef.current = ts;
 
       if (ready && running && !dead && !gameOver) {
@@ -400,7 +427,7 @@ export default function GamePage() {
 
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [running, dead, ready, mode, modeKey, gameOver]);
+  }, [running, dead, ready, mode, modeKey, gameOver, assetsReady]);
 
   useEffect(() => {
     if (!running || dead || !ready || gameOver) return;
@@ -411,7 +438,6 @@ export default function GamePage() {
   }, [running, dead, ready, modeKey, gameOver]);
 
   useEffect(() => {
-    // Handle page unload to save checkpoint
     function handleBeforeUnload() {
       if (running && !dead && !gameOver && (eggCountRef.current > 0 || heartCountRef.current > 0 || reviveCountRef.current > 0)) {
         saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, false);
@@ -456,23 +482,12 @@ export default function GamePage() {
     }
   }
 
-
-
-
   // Save checkpoint and exit to menu
   async function saveAndExit() {
     await saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, true);
     await refresh();
     nav("/menu");
   }
-
-
-
-
-
-
-
-
 
   // Load heart puzzle for revive
   async function loadPuzzle() {
@@ -486,115 +501,58 @@ export default function GamePage() {
     }
   }
 
+  // Attempt to revive with puzzle answer
+  async function tryRevive() {
+    const solution = reviveState.puzzle?.solution;
 
+    if (solution == null) {
+      toast.error("No solution received");
+      return;
+    }
 
+    reviveCountRef.current += 1;
 
+    const remainingAfterThisTry = Math.max(0, BASE_REVIVE_CHANCES + heartCountRef.current - reviveCountRef.current);
+    const isCorrect = String(reviveState.answer).trim() === String(solution).trim();
 
+    if (isCorrect) {
+      const safeObstacles = obstaclesRef.current.map((o) => ({ ...o, x: o.x + 350 }));
+      obstaclesRef.current = safeObstacles;
+      setObstacles(safeObstacles);
 
+      vyRef.current = mode.jumpVelocity * 0.55;
+      setReviveState({ open: false, puzzle: null, answer: "", loading: false });
+      setDead(false);
+      lastTsRef.current = 0;
+      setRunning(true);
+      setStatusText(`Revived · ${mode.label} mode`);
 
-// Attempt to revive with puzzle answer
-async function tryRevive() {
-  const solution = reviveState.puzzle?.solution;
+      await saveCheckpoint(scoreFrom(eggCountRef.current), modeKey, eggCountRef.current, heartCountRef.current, reviveCountRef.current, false);
+      return;
+    }
 
-  if (solution == null) {
-    toast.error("No solution received");
-    return;
+    if (remainingAfterThisTry <= 0) {
+      setReviveState({ open: false, puzzle: null, answer: "", loading: false });
+      setStatusText("Game over · No revive chances left");
+      setGameOver(true);
+      api.delete("/game/checkpoint").catch(() => {});
+      toast.error("Wrong answer. No revive chances left.");
+    } else {
+      setStatusText(`Wrong answer · ${remainingAfterThisTry} revive ${remainingAfterThisTry === 1 ? "chance" : "chances"} left`);
+      toast.error(`Wrong answer. ${remainingAfterThisTry} revive ${remainingAfterThisTry === 1 ? "chance" : "chances"} left.`);
+      setReviveState((r) => ({ ...r, answer: "" }));
+    }
   }
-
-  reviveCountRef.current += 1;
-
-  const remainingAfterThisTry =
-    Math.max(0, BASE_REVIVE_CHANCES + heartCountRef.current - reviveCountRef.current);
-
-  const isCorrect =
-    String(reviveState.answer).trim() === String(solution).trim();
-
-  if (isCorrect) {
-
-    
-    const safeObstacles = obstaclesRef.current.map((o) => ({
-      ...o,
-      x: o.x + 350,
-    }));
-
-    obstaclesRef.current = safeObstacles;
-    setObstacles(safeObstacles);
-
-   
-    vyRef.current = mode.jumpVelocity * 0.55;
-
-    // close revive popup
-    setReviveState({
-      open: false,
-      puzzle: null,
-      answer: "",
-      loading: false,
-    });
-
-    // revive player
-    setDead(false);
-
-    // reset animation timing
-    lastTsRef.current = 0;
-
-    // resume game loop
-    setRunning(true);
-
-    setStatusText(`Revived · ${mode.label} mode`);
-
-    await saveCheckpoint(
-      scoreFrom(eggCountRef.current),
-      modeKey,
-      eggCountRef.current,
-      heartCountRef.current,
-      reviveCountRef.current,
-      false
-    );
-
-    return;
-  }
-
-  // wrong answer
-  if (remainingAfterThisTry <= 0) {
-    setReviveState({
-      open: false,
-      puzzle: null,
-      answer: "",
-      loading: false,
-    });
-
-    setStatusText("Game over · No revive chances left");
-    setGameOver(true);
-
-    api.delete("/game/checkpoint").catch(() => {});
-
-    toast.error("Wrong answer. No revive chances left.");
-  } else {
-    setStatusText(
-      `Wrong answer · ${remainingAfterThisTry} revive ${
-        remainingAfterThisTry === 1 ? "chance" : "chances"
-      } left`
-    );
-
-    toast.error(
-      `Wrong answer. ${remainingAfterThisTry} revive ${
-        remainingAfterThisTry === 1 ? "chance" : "chances"
-      } left.`
-    );
-
-    setReviveState((r) => ({
-      ...r,
-      answer: "",
-    }));
-  }
-}
 
   const playerImage = dead ? DEAD_FRAME : playerY > 1 ? JUMP_FRAME : RUN_FRAMES[playerFrame];
 
-  if (!ready) {
+  // Show loading screen until assets are preloaded
+  if (!assetsReady || !ready) {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
-        <div className="rounded-3xl border border-secondary/20 bg-black/20 p-6">Loading your adventure...</div>
+        <div className="rounded-3xl border border-secondary/20 bg-black/20 p-6 text-white">
+          {!assetsReady ? "Loading game assets..." : "Loading your adventure..."}
+        </div>
       </div>
     );
   }
