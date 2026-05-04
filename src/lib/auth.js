@@ -9,16 +9,25 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   // Refresh user data
-  async function refresh() {
-    try {
-      const { data } = await api.get("/users/me");
-      setUser(data.user);
-    } catch {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+async function refresh() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    setUser(null);
+    setLoading(false);
+    return;
   }
+
+  try {
+    const { data } = await api.get("/users/me");
+    setUser(data.user);  // state update is scheduled here
+  } catch {
+    setUser(null);
+    localStorage.removeItem("token");
+  } finally {
+    setLoading(false);
+  }
+}
 
   useEffect(() => {
     refresh();

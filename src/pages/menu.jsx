@@ -22,13 +22,13 @@ const MODES = {
   },
 };
 
-const BG_IMAGE =
-  "/game-assets/bg-menu.jpg";
+const BG_IMAGE = "/game-assets/bg-menu.jpg";
 
 // Menu page component
 export default function MenuPage() {
   const nav = useNavigate();
-  const { user, refresh } = useAuth();
+  const { user, setUser } = useAuth(); // ✅ inside component body
+
   const [mode, setMode] = useState("easy");
   const [checkpoint, setCheckpoint] = useState({ checkpointScore: 0, checkpointMode: "" });
   const [loadingCheckpoint, setLoadingCheckpoint] = useState(true);
@@ -52,7 +52,8 @@ export default function MenuPage() {
   // Logout user
   async function logout() {
     await api.post("/users/logout");
-    await refresh();
+    localStorage.removeItem("token");
+    setUser(null);
     toast.success("Logged out");
     nav("/");
   }
@@ -118,7 +119,6 @@ export default function MenuPage() {
                   <div className="text-lg font-black text-white md:text-2xl">
                     Choose your adventure mode
                   </div>
-                 
                 </div>
                 <div className="hidden rounded-full border border-amber-300/25 bg-amber-300/10 px-3 py-1 text-[10px] font-semibold text-amber-100 md:block">
                   Mode Select

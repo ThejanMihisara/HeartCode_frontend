@@ -3,15 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { api } from "../lib/api";
 import { useAuth } from "../lib/auth";
-import { FiEye} from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 
-const BG_IMAGE =
-  "/game-assets/bg-login.jpg";
+const BG_IMAGE = "/game-assets/bg-login.jpg";
 
 // Login page component
 export default function LoginPage() {
   const nav = useNavigate();
-  const { refresh } = useAuth();
+  const { setUser } = useAuth(); // ✅ inside component body only
 
   const [form, setForm] = useState({
     email: "",
@@ -28,8 +27,9 @@ export default function LoginPage() {
     setBusy(true);
 
     try {
-      await api.post("/users/login", form);
-      await refresh();
+      const { data } = await api.post("/users/login", form);
+      localStorage.setItem("token", data.token);
+      setUser(data.user); // set user directly, no extra /users/me round-trip
       toast.success("Welcome back!");
       nav("/menu");
     } catch (err) {
@@ -78,9 +78,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="Email"
                 value={form.email}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                }
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
               />
             </label>
@@ -95,9 +93,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   value={form.password}
-                  onChange={(e) =>
-                    setForm({ ...form, password: e.target.value })
-                  }
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
                   required
                 />
 
@@ -116,9 +112,7 @@ export default function LoginPage() {
             <input
               type="checkbox"
               checked={form.rememberMe}
-              onChange={(e) =>
-                setForm({ ...form, rememberMe: e.target.checked })
-              }
+              onChange={(e) => setForm({ ...form, rememberMe: e.target.checked })}
               className="h-4 w-4 accent-amber-300"
             />
             Remember me
