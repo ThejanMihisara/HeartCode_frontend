@@ -48,10 +48,10 @@ export default function App() {
       <Toaster position="top-right" />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<PublicOnlyRoute><LoginPage /></PublicOnlyRoute>} />
-        <Route path="/register" element={<PublicOnlyRoute><RegisterPage /></PublicOnlyRoute>} />
-        <Route path="/menu" element={<ProtectedRoute><MenuPage /></ProtectedRoute>} />
-        <Route path="/game" element={<ProtectedRoute><GamePage /></ProtectedRoute>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/game" element={<GamePage />} />
         <Route path="/leaderboard" element={<ProtectedRoute><LeaderboardPage /></ProtectedRoute>} />
         <Route path="/progress-log" element={<ProtectedRoute><ProgressLogPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
